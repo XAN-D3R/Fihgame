@@ -170,7 +170,22 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ft8w5"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h54ih"]
+size = Vector2(10, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ft8w5"]
+size = Vector2(32, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ft8w5"]
+bg_color = Color(0.23921569, 0.16862746, 0.12156863, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.47843137, 0.36078432, 0.22745098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h54ih"]
+bg_color = Color(0.54509807, 0.1254902, 0.1254902, 1)
 
 [node name="Player" type="CharacterBody2D" unique_id=1793366668]
 motion_mode = 1
@@ -182,7 +197,7 @@ sprite_frames = SubResource("SpriteFrames_1e6p3")
 animation = &"walk_up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=421721738]
-shape = SubResource("CapsuleShape2D_ft8w5")
+shape = SubResource("RectangleShape2D_h54ih")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=609668180]
 
@@ -191,3 +206,21 @@ visible = false
 color = Color(0.41003683, 0.9999998, 0.8850554, 1)
 polygon = PackedVector2Array(-40, -32, 48, -32, 48, 40, -40, 40)
 uv = PackedVector2Array(-472, -72, -384, -72, -384, 0, -472, 0)
+
+[node name="AttackArea" type="Area2D" parent="." unique_id=1629107682]
+collision_layer = 4
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=803946230]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_ft8w5")
+disabled = true
+
+[node name="HpBar" type="ProgressBar" parent="." unique_id=964678632]
+offset_left = -24.0
+offset_top = -20.0
+offset_right = 24.0
+offset_bottom = -14.0
+theme_override_styles/background = SubResource("StyleBoxFlat_ft8w5")
+theme_override_styles/fill = SubResource("StyleBoxFlat_h54ih")
+show_percentage = false

@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://dwu10ceync6q4"]
 
+[ext_resource type="Script" uid="uid://c8obaaod0gsmg" path="res://Scripts/World/GameManager.cs" id="1_ng1ea"]
 [ext_resource type="Texture2D" uid="uid://clixg1tih1xg5" path="res://Assets/Sprites/Terrain/Grass.png" id="1_xf6vi"]
 [ext_resource type="Texture2D" uid="uid://dv2c6hjdv2v2e" path="res://Assets/Sprites/Terrain/Water.png" id="2_ouhkt"]
 [ext_resource type="PackedScene" uid="uid://cpfj5tfmj0ssj" path="res://Scenes/Player/Player.tscn" id="2_xf6vi"]
@@ -9,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://ieaki5cyhr0v" path="res://Assets/Sprites/Fishing/Fish/Carp.png" id="7_87yka"]
 [ext_resource type="Script" uid="uid://bimwf6jguxh1q" path="res://Scripts/UI/InventoryPanel.cs" id="8_kjd5s"]
 [ext_resource type="Theme" uid="uid://vwjxxaao8wcs" path="res://Assets/Themes/InventoryTheme.tres" id="8_p7pgw"]
+[ext_resource type="Script" uid="uid://otc1txxwexmh" path="res://Scripts/UI/DeathMenu.cs" id="10_kuxid"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ouhkt"]
 texture = ExtResource("1_xf6vi")
@@ -880,6 +882,7 @@ terrain_set_0/terrain_0/name = "Gras"
 terrain_set_0/terrain_0/color = Color(0.20392157, 0.8862745, 0.31764707, 1)
 terrain_set_0/terrain_1/name = "Aarde"
 terrain_set_0/terrain_1/color = Color(0.19484471, 0.10400797, 0.009612479, 1)
+navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_ouhkt")
 sources/1 = SubResource("TileSetAtlasSource_5jr8x")
 sources/2 = SubResource("TileSetAtlasSource_27jhl")
@@ -908,7 +911,53 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0d0er"]
+bg_color = Color(0.18039216, 0.12156863, 0.078431375, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.47843137, 0.36078432, 0.22745098, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x5sp8"]
+bg_color = Color(0.36078432, 0.22745098, 0.11764706, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.47843137, 0.36078432, 0.22745098, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lp0bp"]
+bg_color = Color(0.36078432, 0.22745098, 0.11764706, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.47843137, 0.36078432, 0.22745098, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_p7pgw"]
+vertices = PackedVector2Array(512, -312, 512, 380, 402, 178, 402, -98, -604, 380, 126, 178, -604, -312, 126, -98)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 1, 4, 5), PackedInt32Array(6, 0, 3, 7), PackedInt32Array(4, 6, 7, 5)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-614, 390, 522, 390, 522, -322, -614, -322)])
+baking_rect = Rect2(-700, -500, 1500, 1000)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kuxid"]
+size = Vector2(85.333336, 85.333336)
+
 [node name="World" type="Node2D" unique_id=896182010]
+script = ExtResource("1_ng1ea")
 
 [node name="GrassLayer" type="TileMapLayer" parent="." unique_id=764994418]
 scale = Vector2(3, 3)
@@ -924,6 +973,7 @@ tile_map_data = PackedByteArray("AAADAP7/AQAAAAAAAAADAP//AQAAAAAAAAADAAAAAQAAAAA
 tile_set = SubResource("TileSet_5jr8x")
 
 [node name="Player" parent="." unique_id=1793366668 instance=ExtResource("2_xf6vi")]
+position = Vector2(0, -2)
 scale = Vector2(3, 3)
 
 [node name="FishingSprite" type="Sprite2D" parent="Player" unique_id=1570171566]
@@ -1079,3 +1129,102 @@ offset_left = 10.0
 offset_top = 220.0
 offset_right = 50.0
 offset_bottom = 243.0
+
+[node name="DeathMenu" type="Panel" parent="CanvasLayer" unique_id=606671515]
+process_mode = 3
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 330.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0d0er")
+script = ExtResource("10_kuxid")
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/DeathMenu" unique_id=1022671168]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 15.0
+offset_bottom = 46.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.54509807, 0.1254902, 0.1254902, 1)
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+
+[node name="KilledByLabel" type="Label" parent="CanvasLayer/DeathMenu" unique_id=262610387]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 50.0
+offset_bottom = 73.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.78431374, 0.65882355, 0.47843137, 1)
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+
+[node name="StatsContainer" type="HBoxContainer" parent="CanvasLayer/DeathMenu" unique_id=1080129964]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 90.0
+offset_bottom = 113.0
+grow_horizontal = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="FishCaughtLabel" type="Label" parent="CanvasLayer/DeathMenu/StatsContainer" unique_id=1415630233]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78431374, 0.65882355, 0.47843137, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="CreaturesDefeatedLabel" type="Label" parent="CanvasLayer/DeathMenu/StatsContainer" unique_id=1550778776]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78431374, 0.65882355, 0.47843137, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="TimeLabel" type="Label" parent="CanvasLayer/DeathMenu/StatsContainer" unique_id=319799308]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78431374, 0.65882355, 0.47843137, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="RetryButton" type="Button" parent="CanvasLayer/DeathMenu" unique_id=707240067]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 180.0
+offset_right = 330.0
+offset_bottom = 215.0
+theme_override_colors/font_color = Color(0.9607843, 0.87058824, 0.7019608, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_x5sp8")
+text = "Try Again"
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/DeathMenu" unique_id=2055403819]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 225.0
+offset_right = 330.0
+offset_bottom = 260.0
+theme_override_colors/font_color = Color(0.9607843, 0.87058824, 0.7019608, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_lp0bp")
+text = "Quit"
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1041819267]
+position = Vector2(0, -16)
+navigation_polygon = SubResource("NavigationPolygon_p7pgw")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="NavigationRegion2D" unique_id=635439666]
+position = Vector2(0, 12)
+scale = Vector2(3, 3)
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/StaticBody2D" unique_id=1295324686]
+position = Vector2(88, 9.333334)
+shape = SubResource("RectangleShape2D_kuxid")
+debug_color = Color(0, 0, 0.98039216, 0.7921569)

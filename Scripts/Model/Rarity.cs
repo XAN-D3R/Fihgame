@@ -1,6 +1,6 @@
 ﻿namespace Fihgame.Scripts.Model;
 
-public enum FishRarity
+public enum Rarity
 {
     Common,
     Uncommon,

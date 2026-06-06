@@ -1,25 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Godot;
 
 namespace Fihgame.Scripts.Model;
 
 public class Inventory
 {
-    private Dictionary<string, int> _fishCount = new();
-    private Dictionary<string, Fish> _fishData = new();
+    private Dictionary<string, int> _count = new();
+    private Dictionary<string, Item> _data = new();
 
-    public void AddFish(Fish fish)
+    public event Action OnChanged;
+
+    public void AddItem(Item item)
     {
-        if (_fishCount.ContainsKey(fish.Name))
-        {
-            _fishCount[fish.Name]++;
-        }
+        if (_count.ContainsKey(item.Name))
+            _count[item.Name] += item.Quantity;
         else
         {
-            _fishCount[fish.Name] = 1;
-            _fishData[fish.Name] = fish;
+            _count[item.Name] = item.Quantity;
+            _data[item.Name] = item;
         }
+
+        GD.Print(_count[item.Name]);
+        OnChanged?.Invoke();
     }
 
-    public Dictionary<string, int> GetFishCount() => _fishCount;
-    public Fish GetFishData(string name) => _fishData[name];
+    public Dictionary<string, int> GetCount() => _count;
+    public Item GetData(string name) => _data[name];
 }
