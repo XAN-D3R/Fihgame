@@ -1,4 +1,5 @@
-﻿using Fihgame.Scripts.Model;
+﻿using System.Collections.Generic;
+using Fihgame.Scripts.Model;
 using Fihgame.Scripts.World;
 using Godot;
 
@@ -6,22 +7,32 @@ namespace Fihgame.Scripts.Player.Managers;
 
 public partial class CombatManager : Node
 {
-    private Scripts.Player.Player _player;
+    private Player _player;
     private Area2D _attackArea;
     private PackedScene _seaCreatureScene;
+    
+    private Node2D _weaponPivot;
+    private Sprite2D _weaponSprite;
+    
+    private float _swingTimer = 0f;
+    private float _swingDuration = 0.3f;
+    private float _swingAngle = 90f;
 
     private bool _isAttacking = false;
     private float _attackTimer = 0f;
     private float _attackDuration = 0.5f;
-
-    public void Initialize(Scripts.Player.Player player, Area2D attackArea, PackedScene seaCreatureScene)
+    
+    public void Initialize(Player player, Area2D attackArea, PackedScene seaCreatureScene)
     {
         _player = player;
         _attackArea = attackArea;
         _seaCreatureScene = seaCreatureScene;
+        
+        _weaponPivot = _player.GetNode<Node2D>("WeaponPivot");
+        _weaponSprite = _weaponPivot.GetNode<Sprite2D>("WeaponSprite");
+        _weaponPivot.Visible = false;
 
         _attackArea.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
-        _attackArea.AreaEntered += OnAttackAreaEntered;
 
         _player.OnAttackPressed += HandleAttackPressed;
     }
@@ -35,6 +46,28 @@ public partial class CombatManager : Node
         {
             _isAttacking = false;
             _attackArea.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
+            _weaponPivot.Visible = false;
+        }
+
+        _swingTimer -= (float)delta;
+        float progress = 1f - Mathf.Clamp(_swingTimer / _swingDuration, 0f, 1f);
+        float swing = Mathf.Lerp(_swingAngle / 2f, -_swingAngle / 2f, progress);
+
+        switch (_player.LastDirection)
+        {
+            case "right": _weaponPivot.RotationDegrees = 90f  + swing; break;
+            case "left":  _weaponPivot.RotationDegrees = -90f + swing; break;
+            case "down":  _weaponPivot.RotationDegrees = 180f + swing; break;
+            case "up":    _weaponPivot.RotationDegrees = 0f   + swing; break;
+        }
+
+        foreach (Area2D area in _attackArea.GetOverlappingAreas())
+        {
+            if (area.GetParent() is SeaCreatureEntity entity)
+            {
+                Vector2 knockbackDir = (area.GlobalPosition - _player.GlobalPosition).Normalized();
+                entity.TakeDamage(_player.Damage, knockbackDir, _attackDuration);
+            }
         }
     }
 
@@ -43,19 +76,25 @@ public partial class CombatManager : Node
         if (_isAttacking) return;
 
         UpdateAttackAreaPosition();
-        _attackArea.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
+        var col = _attackArea.GetNode<CollisionShape2D>("CollisionShape2D");
+    
+        col.Disabled = true;
+        col.Disabled = false;
+    
         _isAttacking = true;
         _attackTimer = _attackDuration;
+        _swingTimer = _swingDuration;
+        _weaponPivot.Visible = true;
     }
-
-    private void OnAttackAreaEntered(Area2D area)
+    
+    private void UpdateWeaponPosition()
     {
-        if (!_isAttacking) return;
-
-        if (area.GetParent() is SeaCreatureEntity entity)
+        switch (_player.LastDirection)
         {
-            entity.TakeDamage(_player.Damage);
-            GD.Print($"Player attacked for {_player.Damage} damage!");
+            case "right": _weaponPivot.RotationDegrees = 90f;  break;
+            case "left":  _weaponPivot.RotationDegrees = -90f; break;
+            case "down":  _weaponPivot.RotationDegrees = 180f; break;
+            case "up":    _weaponPivot.RotationDegrees = 0f;   break;
         }
     }
 
@@ -65,11 +104,11 @@ public partial class CombatManager : Node
 
         Vector2 spawnOffset = _player.LastDirection switch
         {
-            "right" => new Vector2(-48, 0),
-            "left"  => new Vector2(48, 0),
-            "down"  => new Vector2(0, -48),
-            "up"    => new Vector2(0, 48),
-            _       => new Vector2(0, 48)
+            "right" => new Vector2(-96, 0),
+            "left"  => new Vector2(96, 0),
+            "down"  => new Vector2(0, -96),
+            "up"    => new Vector2(0, 96),
+            _       => new Vector2(0, 96)
         };
 
         entity.GlobalPosition = _player.GlobalPosition + spawnOffset;
@@ -81,12 +120,39 @@ public partial class CombatManager : Node
 
     private void UpdateAttackAreaPosition()
     {
+        var shape = _attackArea.GetNode<CollisionShape2D>("CollisionShape2D");
+    
         switch (_player.LastDirection)
         {
-            case "right": _attackArea.Position = new Vector2(24, 0);  break;
-            case "left":  _attackArea.Position = new Vector2(-24, 0); break;
-            case "down":  _attackArea.Position = new Vector2(0, 24);  break;
-            case "up":    _attackArea.Position = new Vector2(0, -24); break;
+            case "right": SetConeShape(shape, 0f);    _attackArea.Position = new Vector2(8, 0);  break;
+            case "left":  SetConeShape(shape, 180f);  _attackArea.Position = new Vector2(-8, 0); break;
+            case "down":  SetConeShape(shape, 90f);   _attackArea.Position = new Vector2(0, 8);  break;
+            case "up":    SetConeShape(shape, -90f);  _attackArea.Position = new Vector2(0, -8); break;
         }
+    }
+
+    private void SetConeShape(CollisionShape2D shape, float angleDegrees)
+    {
+        float angleRad = Mathf.DegToRad(angleDegrees);
+        float spread = Mathf.DegToRad(50f);
+        float length = 32f;
+        int segments = 8;
+
+        var points = new Vector2[segments + 2];
+        points[0] = Vector2.Zero;
+
+        for (int i = 0; i <= segments; i++)
+        {
+            float t = (float)i / segments;
+            float currentAngle = angleRad - spread + t * (spread * 2f);
+            points[i + 1] = new Vector2(
+                Mathf.Cos(currentAngle),
+                Mathf.Sin(currentAngle)
+            ) * length;
+        }
+
+        var polygon = new ConvexPolygonShape2D();
+        polygon.Points = points;
+        shape.Shape = polygon;
     }
 }

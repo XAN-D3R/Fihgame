@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://rkpbd2flyo7n" path="res://Scripts/Player/Player.cs" id="1_s0eop"]
 [ext_resource type="Texture2D" uid="uid://cg6ovjvj08n3a" path="res://Assets/Sprites/Player/Basic Charakter Spritesheet.png" id="2_ft8w5"]
+[ext_resource type="Texture2D" uid="uid://csgum5kxdiwis" path="res://Assets/Sprites/Weapons/stick.png" id="3_h54ih"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h54ih"]
 atlas = ExtResource("2_ft8w5")
@@ -173,8 +174,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h54ih"]
 size = Vector2(10, 14)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ft8w5"]
-size = Vector2(32, 16)
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_h54ih"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ft8w5"]
 bg_color = Color(0.23921569, 0.16862746, 0.12156863, 1)
@@ -208,12 +208,13 @@ polygon = PackedVector2Array(-40, -32, 48, -32, 48, 40, -40, 40)
 uv = PackedVector2Array(-472, -72, -384, -72, -384, 0, -472, 0)
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=1629107682]
+position = Vector2(1, 0)
 collision_layer = 4
 collision_mask = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=803946230]
 position = Vector2(1, 0)
-shape = SubResource("RectangleShape2D_ft8w5")
+shape = SubResource("ConvexPolygonShape2D_h54ih")
 disabled = true
 
 [node name="HpBar" type="ProgressBar" parent="." unique_id=964678632]
@@ -224,3 +225,10 @@ offset_bottom = -14.0
 theme_override_styles/background = SubResource("StyleBoxFlat_ft8w5")
 theme_override_styles/fill = SubResource("StyleBoxFlat_h54ih")
 show_percentage = false
+
+[node name="WeaponPivot" type="Node2D" parent="." unique_id=498933785]
+
+[node name="WeaponSprite" type="Sprite2D" parent="WeaponPivot" unique_id=1558021165]
+position = Vector2(0, -27)
+rotation = -0.7853982
+texture = ExtResource("3_h54ih")
