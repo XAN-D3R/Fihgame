@@ -7,6 +7,9 @@ namespace Fihgame.Scripts.Player;
 public partial class Player : CharacterBody2D
 {
     [Export] public float Speed = 150f;
+    [Export] public float SprintMultiplier = 1.75f;
+    [Export] public float SprintDuration = 3f;    // sprint duration (in sec)
+    [Export] public float SprintRechargeRate = 1f; // recharge time (in sec)
     [Export] public int MaxHp = 100;
     [Export] public int CurrentHp = 100;
     [Export] public int Damage = 10;
@@ -18,7 +21,7 @@ public partial class Player : CharacterBody2D
     public event Action OnFishPressed;
     public event Action OnAttackPressed;
     public event Action OnInventoryPressed;
-    
+    public event Action OnSprintHeld;
     public event Action OnDeath;
 
     private AnimatedSprite2D _sprite;
@@ -30,6 +33,9 @@ public partial class Player : CharacterBody2D
     private float _healDelay = 5f;
     private float _timeSinceDamage = 0f;
 
+    private float _sprintStamina;
+    private bool _isSprinting = false;
+
     public override void _Ready()
     {
         _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -37,11 +43,14 @@ public partial class Player : CharacterBody2D
         _hpBar.MaxValue = MaxHp;
         _hpBar.Value = CurrentHp;
         _hpBar.Visible = false;
+
+        _sprintStamina = SprintDuration;
     }
 
     public override void _PhysicsProcess(double delta)
     {
         HandleHealing((float)delta);
+        HandleSprint((float)delta);
         Stats.UpdateTime((float)delta);
 
         if (Input.IsActionJustPressed("fish"))      OnFishPressed?.Invoke();
@@ -49,6 +58,24 @@ public partial class Player : CharacterBody2D
         if (Input.IsActionJustPressed("inventory")) OnInventoryPressed?.Invoke();
 
         HandleMovement();
+    }
+
+    private void HandleSprint(float delta)
+    {
+        bool sprintPressed = Input.IsActionPressed("sprint");
+        bool isMoving = Velocity != Vector2.Zero;
+
+        if (sprintPressed && isMoving && _sprintStamina > 0f)
+        {
+            _isSprinting = true;
+            _sprintStamina = Mathf.Max(0f, _sprintStamina - delta);
+            OnSprintHeld?.Invoke();
+        }
+        else
+        {
+            _isSprinting = false;
+            _sprintStamina = Mathf.Min(SprintDuration, _sprintStamina + delta * SprintRechargeRate);
+        }
     }
 
     private void HandleMovement()
@@ -60,7 +87,8 @@ public partial class Player : CharacterBody2D
         if (Input.IsActionPressed("ui_down"))  direction.Y += 1;
         if (Input.IsActionPressed("ui_up"))    direction.Y -= 1;
 
-        Velocity = direction.Normalized() * Speed;
+        float currentSpeed = _isSprinting ? Speed * SprintMultiplier : Speed;
+        Velocity = direction.Normalized() * currentSpeed;
         MoveAndSlide();
 
         if (direction == Vector2.Zero)
@@ -110,4 +138,7 @@ public partial class Player : CharacterBody2D
         _hpBar.Value = CurrentHp;
         _hpBar.Visible = CurrentHp < MaxHp;
     }
+
+    // Stamina bar (toekomst)
+    public float GetSprintStaminaPercent() => _sprintStamina / SprintDuration;
 }
