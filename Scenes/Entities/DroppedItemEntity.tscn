@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://b812dn4pk7j3m"]
+
+[ext_resource type="Script" uid="uid://bbvy3k0wgrxec" path="res://Scripts/World/DroppedItemEntity.cs" id="1_waa4w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vcy7e"]
+
+[node name="DroppedItemEntity" type="Area2D" unique_id=881355899]
+script = ExtResource("1_waa4w")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=476792503]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=921058208]
+shape = SubResource("RectangleShape2D_vcy7e")
+
+[node name="Label" type="Label" parent="." unique_id=1912678601]
+offset_right = 40.0
+offset_bottom = 23.0

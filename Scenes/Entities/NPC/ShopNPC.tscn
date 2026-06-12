@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cb83kweadegtt"]
+
+[ext_resource type="Texture2D" uid="uid://bh8x5vfr5xdrg" path="res://Assets/Sprites/NPC/Norwood.png" id="1_g1qj6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g1qj6"]
+
+[node name="ShopNpc" type="Area2D" unique_id=96445582]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1839625104]
+texture = ExtResource("1_g1qj6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1343545713]
+shape = SubResource("RectangleShape2D_g1qj6")
+
+[node name="HintLabel" type="Label" parent="." unique_id=1499153785]
+offset_left = -48.0
+offset_top = -80.0
+offset_right = 69.0
+offset_bottom = -57.0
+text = "Press E to sell"

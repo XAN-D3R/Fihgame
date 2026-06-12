@@ -14,8 +14,9 @@ public partial class FishingManager : Node
 
     private bool _isFishing = false;
     private float _fishingTimer = 0f;
+    
 
-    [Export] public float FishingWaitTime = 2.5f;
+    public float FishingWaitTime = 2.5f;
 
     public void Initialize(Scripts.Player.Player player, TileMapLayer waterLayer,
                            Sprite2D fishingSprite, FishCaughtPopup popup,
@@ -52,15 +53,18 @@ public partial class FishingManager : Node
     private void StartFishing()
     {
         _isFishing = true;
+        _player.IsBusy = true;
         _fishingTimer = FishingWaitTime;
         _fishingSprite.Visible = true;
         UpdateFishingRodPosition();
+        _player.StopWalkingAnimation();
         GD.Print("Rod cast... waiting for fish!");
     }
 
     private void CatchFish()
     {
         _isFishing = false;
+        _player.IsBusy = false;
         _fishingSprite.Visible = false;
 
         CatchableEntity caught = EntityFactory.CreateRandom();
@@ -71,7 +75,8 @@ public partial class FishingManager : Node
         }
         else if (caught is Fish fish)
         {
-            _player.Inventory.AddItem(fish);
+            var fishItem = new FishItem(fish.Name, fish.SpritePath, fish.Description, fish.Rarity, fish.SellPrice);
+            _player.Inventory.AddItem(fishItem);
             _player.Stats.AddFishCaught();
             _fishCaughtPopup.ShowFish(fish);
         }

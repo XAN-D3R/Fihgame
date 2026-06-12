@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://u5esih5jqx76"]
+
+[ext_resource type="Script" uid="uid://d2218o60m4oeh" path="res://Scripts/World/SeaCreatureEntity.cs" id="1_0yyvm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kdaj0"]
+size = Vector2(12, 12)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0yyvm"]
+bg_color = Color(0.23921569, 0.16862746, 0.12156863, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.47843137, 0.36078432, 0.22745098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kdaj0"]
+bg_color = Color(0.54509807, 0.1254902, 0.1254902, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0yyvm"]
+size = Vector2(32, 16)
+
+[node name="SeaCreatureEntity" type="CharacterBody2D" unique_id=1030546829]
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_0yyvm")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1825988488]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=413041836]
+shape = SubResource("RectangleShape2D_kdaj0")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=643455093]
+target_desired_distance = 16.0
+path_max_distance = 16.0
+
+[node name="HpBar" type="ProgressBar" parent="." unique_id=546218217]
+offset_left = -24.0
+offset_top = -20.0
+offset_right = 24.0
+offset_bottom = -14.0
+theme_override_styles/background = SubResource("StyleBoxFlat_0yyvm")
+theme_override_styles/fill = SubResource("StyleBoxFlat_kdaj0")
+show_percentage = false
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=765148697]
+collision_layer = 4
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1072076269]
+shape = SubResource("RectangleShape2D_0yyvm")

@@ -9,7 +9,7 @@ public partial class Player : CharacterBody2D
     [Export] public float Speed = 150f;
     [Export] public float SprintMultiplier = 1.75f;
     [Export] public float SprintDuration = 3f;    // sprint duration (in sec)
-    [Export] public float SprintRechargeRate = 1f; // recharge time (in sec)
+    [Export] public float SprintRechargeRate = 1f; // recharge time (in sec) WIP
     [Export] public int MaxHp = 100;
     [Export] public int CurrentHp = 100;
     [Export] public int Damage = 10;
@@ -17,6 +17,7 @@ public partial class Player : CharacterBody2D
     public string LastDirection = "down";
     public GameStats Stats = new GameStats();
     public Inventory Inventory = new Inventory();
+    public int Coins = 0;
 
     public event Action OnFishPressed;
     public event Action OnAttackPressed;
@@ -35,6 +36,8 @@ public partial class Player : CharacterBody2D
 
     private float _sprintStamina;
     private bool _isSprinting = false;
+    
+    public bool IsBusy = false;
 
     public override void _Ready()
     {
@@ -53,11 +56,14 @@ public partial class Player : CharacterBody2D
         HandleSprint((float)delta);
         Stats.UpdateTime((float)delta);
 
-        if (Input.IsActionJustPressed("fish"))      OnFishPressed?.Invoke();
-        if (Input.IsActionJustPressed("attack"))    OnAttackPressed?.Invoke();
-        if (Input.IsActionJustPressed("inventory")) OnInventoryPressed?.Invoke();
+        if (!IsBusy)
+        {
+            if (Input.IsActionJustPressed("fish"))      OnFishPressed?.Invoke();
+            if (Input.IsActionJustPressed("attack"))    OnAttackPressed?.Invoke();
+            if (Input.IsActionJustPressed("inventory")) OnInventoryPressed?.Invoke();
 
-        HandleMovement();
+            HandleMovement();
+        }
     }
 
     private void HandleSprint(float delta)
@@ -80,26 +86,37 @@ public partial class Player : CharacterBody2D
 
     private void HandleMovement()
     {
-        Vector2 direction = Vector2.Zero;
+        if (IsBusy) return;
 
-        if (Input.IsActionPressed("ui_right")) direction.X += 1;
-        if (Input.IsActionPressed("ui_left"))  direction.X -= 1;
-        if (Input.IsActionPressed("ui_down"))  direction.Y += 1;
-        if (Input.IsActionPressed("ui_up"))    direction.Y -= 1;
+        Vector2 direction = Vector2.Zero;
+    
+        if (Input.IsActionPressed("move_right")) direction.X += 1;
+        if (Input.IsActionPressed("move_left"))  direction.X -= 1;
+        if (Input.IsActionPressed("move_down"))  direction.Y += 1;
+        if (Input.IsActionPressed("move_up"))    direction.Y -= 1;
+
+        if      (direction.X > 0) LastDirection = "right";
+        else if (direction.X < 0) LastDirection = "left";
+        else if (direction.Y > 0) LastDirection = "down";
+        else if (direction.Y < 0) LastDirection = "up";
 
         float currentSpeed = _isSprinting ? Speed * SprintMultiplier : Speed;
         Velocity = direction.Normalized() * currentSpeed;
         MoveAndSlide();
 
-        if (direction == Vector2.Zero)
+        Vector2 realVelocity = GetRealVelocity();
+        float expectedSpeed = direction == Vector2.Zero ? 0f : currentSpeed;
+        bool blocked = direction != Vector2.Zero && realVelocity.Length() < expectedSpeed * 0.5f;
+        
+        if (direction == Vector2.Zero || blocked)
         {
             _sprite.Play($"idle_{LastDirection}");
             _sprite.Stop();
         }
-        else if (direction.X > 0) { LastDirection = "right"; _sprite.Play("walk_right"); }
-        else if (direction.X < 0) { LastDirection = "left";  _sprite.Play("walk_left");  }
-        else if (direction.Y > 0) { LastDirection = "down";  _sprite.Play("walk_down");  }
-        else                      { LastDirection = "up";    _sprite.Play("walk_up");    }
+        else
+        {
+            _sprite.Play($"walk_{LastDirection}");
+        }
     }
 
     private void HandleHealing(float delta)
@@ -139,6 +156,12 @@ public partial class Player : CharacterBody2D
         _hpBar.Visible = CurrentHp < MaxHp;
     }
 
-    // Stamina bar (toekomst)
+    // Stamina bar WIP
     public float GetSprintStaminaPercent() => _sprintStamina / SprintDuration;
+    
+    public void StopWalkingAnimation()
+    {
+        _sprite.Play($"idle_{LastDirection}");
+        _sprite.Stop();
+    }
 }

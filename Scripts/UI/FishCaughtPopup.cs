@@ -33,9 +33,10 @@ public partial class FishCaughtPopup : Panel
 
     public void ShowFish(Fish fish)
     {
+        var item = new FishItem(fish.Name, fish.SpritePath, fish.Description, fish.Rarity, fish.SellPrice);
         _fishName.Text = fish.Name;
-        _rarityLabel.Text = fish.GetRarityText();
-        _rarityLabel.AddThemeColorOverride("font_color", fish.GetRarityColor());
+        _rarityLabel.Text = item.GetRarityText();
+        _rarityLabel.AddThemeColorOverride("font_color", item.GetRarityColor());
         _fishSprite.Texture = GD.Load<Texture2D>(fish.SpritePath);
         _displayTimer = DisplayTime;
         Visible = true;

@@ -9,14 +9,17 @@ public class Item
     public string Description { get; set; }
     public int Quantity { get; set; }
     public Rarity Rarity { get; set; }
+    public int SellPrice { get; set; }
 
-    public Item(string name, string spritePath, string description, int quantity = 1, Rarity rarity = Rarity.Common)
+    public Item(string name, string spritePath, string description, 
+        int quantity = 1, Rarity rarity = Rarity.Common, int sellPrice = 0)
     {
         Name = name;
         SpritePath = spritePath;
         Description = description;
         Quantity = quantity;
         Rarity = rarity;
+        SellPrice = sellPrice;
     }
 
     public string GetRarityText() => Rarity switch
