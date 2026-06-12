@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dip87jqhk02rv"]
+
+[ext_resource type="Texture2D" uid="uid://bdi8xcw6imi8c" path="res://Assets/Sprites/NPC/FrenchSmith.png" id="1_vn2xv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cxdvl"]
+
+[node name="RodSmithNpc" type="Area2D" unique_id=1226835521]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=976670873]
+texture = ExtResource("1_vn2xv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=596042178]
+shape = SubResource("RectangleShape2D_cxdvl")
+
+[node name="HintLabel" type="Label" parent="." unique_id=1248215075]
+offset_left = -48.0
+offset_top = -80.0
+offset_right = 69.0
+offset_bottom = -57.0
+text = "Press E to Craft"

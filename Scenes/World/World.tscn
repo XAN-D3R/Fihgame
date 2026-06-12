@@ -9,10 +9,13 @@
 [ext_resource type="Texture2D" uid="uid://ieaki5cyhr0v" path="res://Assets/Sprites/Fishing/Fish/Carp.png" id="7_87yka"]
 [ext_resource type="Script" uid="uid://bimwf6jguxh1q" path="res://Scripts/UI/InventoryPanel.cs" id="8_kjd5s"]
 [ext_resource type="Theme" uid="uid://vwjxxaao8wcs" path="res://Assets/Themes/InventoryTheme.tres" id="8_p7pgw"]
+[ext_resource type="Script" uid="uid://dkk3nu2ivx5si" path="res://Scripts/UI/CraftingPanel.cs" id="10_30wmc"]
 [ext_resource type="Script" uid="uid://otc1txxwexmh" path="res://Scripts/UI/DeathMenu.cs" id="10_kuxid"]
 [ext_resource type="PackedScene" uid="uid://defjqpma7dwgr" path="res://Scripts/UI/ShopPanel.tscn" id="12_x5sp8"]
 [ext_resource type="PackedScene" uid="uid://cb83kweadegtt" path="res://Scenes/Entities/NPC/ShopNPC.tscn" id="13_lp0bp"]
+[ext_resource type="PackedScene" uid="uid://dip87jqhk02rv" path="res://Scenes/Entities/NPC/RodSmithNpc.tscn" id="14_0phyg"]
 [ext_resource type="Script" uid="uid://i2c44k7sjblj" path="res://Scripts/World/NPC/ShopNPC.cs" id="14_lp0bp"]
+[ext_resource type="Script" uid="uid://di4c434yccbm7" path="res://Scripts/World/NPC/RodSmithNPC.cs" id="15_0phyg"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_x5sp8"]
 load_path = "res://.godot/imported/Grass.png-e65489057276ce05412148c46b107662.ctex"
@@ -1066,6 +1069,18 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_30wmc"]
+bg_color = Color(0.23921569, 0.16862746, 0.12156863, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.47843137, 0.36078432, 0.22745098, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_p7pgw"]
 vertices = PackedVector2Array(512, -312, 512, 380, 402, 178, 402, -98, -604, 380, 126, 178, -604, -312, 126, -98)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 1, 4, 5), PackedInt32Array(6, 0, 3, 7), PackedInt32Array(4, 6, 7, 5)])
@@ -1328,6 +1343,30 @@ text = "Quit"
 [node name="ShopPanel" parent="CanvasLayer" unique_id=1972265678 instance=ExtResource("12_x5sp8")]
 theme_override_styles/panel = SubResource("StyleBoxFlat_0phyg")
 
+[node name="CraftingPanel" type="Panel" parent="CanvasLayer" unique_id=2029258778]
+visible = false
+offset_right = 475.0
+offset_bottom = 500.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_30wmc")
+script = ExtResource("10_30wmc")
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/CraftingPanel" unique_id=970225361]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 50.0
+offset_bottom = 80.0
+
+[node name="FeedbackLabel" type="Label" parent="CanvasLayer/CraftingPanel" unique_id=961257932]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 10.0
+offset_right = 140.0
+offset_bottom = 33.0
+theme_override_colors/font_color = Color(1, 0.9309246, 0.48452926, 1)
+
+[node name="FeedbackTimer" type="Timer" parent="CanvasLayer/CraftingPanel" unique_id=1690526805]
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1041819267]
 visible = false
 position = Vector2(0, -16)
@@ -1350,6 +1389,7 @@ y_sort_enabled = true
 [node name="Player" parent="Entities" unique_id=1793366668 instance=ExtResource("2_xf6vi")]
 position = Vector2(0, -2)
 scale = Vector2(3, 3)
+Damage = 75
 
 [node name="FishingSprite" type="Sprite2D" parent="Entities/Player" unique_id=1570171566]
 visible = false
@@ -1360,3 +1400,7 @@ region_rect = Rect2(192.59393, 0, 47.02542, 48)
 [node name="ShopNPC" parent="Entities" unique_id=96445582 instance=ExtResource("13_lp0bp")]
 position = Vector2(-168, -136)
 script = ExtResource("14_lp0bp")
+
+[node name="RodSmithNPC" parent="Entities" unique_id=1226835521 instance=ExtResource("14_0phyg")]
+position = Vector2(-512, -136)
+script = ExtResource("15_0phyg")

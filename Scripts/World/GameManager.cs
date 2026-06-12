@@ -3,7 +3,6 @@ using Fihgame.Scripts.UI;
 using Fihgame.Scripts.World.NPC;
 using Godot;
 
-
 namespace Fihgame.Scripts.World;
 
 public partial class GameManager : Node
@@ -13,6 +12,7 @@ public partial class GameManager : Node
     private CombatManager _combatManager;
     private UIManager _uiManager;
     private ShopNPC _shopNpc;
+    private RodSmithNPC _rodSmithNpc;
 
     public override void _Ready()
     {
@@ -30,8 +30,14 @@ public partial class GameManager : Node
         var shopPanel = GetNode<ShopPanel>("CanvasLayer/ShopPanel");
         shopPanel.Initialize(_player);
         
+        var craftingPanel = GetNode<CraftingPanel>("CanvasLayer/CraftingPanel");
+        craftingPanel.Initialize(_player);
+        
         _shopNpc = GetNode<ShopNPC>("Entities/ShopNPC");
         _shopNpc.Initialize(shopPanel);
+        
+        _rodSmithNpc = GetNode<RodSmithNPC>("Entities/RodSmithNPC");
+        _rodSmithNpc.Initialize(craftingPanel);
 
         _combatManager = new CombatManager();
         AddChild(_combatManager);

@@ -16,7 +16,7 @@ public partial class FishingManager : Node
     private float _fishingTimer = 0f;
     
 
-    public float FishingWaitTime = 2.5f;
+    public float FishingWaitTime = 0.5f;
 
     public void Initialize(Scripts.Player.Player player, TileMapLayer grassLayer,
                            Sprite2D fishingSprite, FishCaughtPopup popup,

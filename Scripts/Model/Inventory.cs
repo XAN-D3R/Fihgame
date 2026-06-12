@@ -41,4 +41,6 @@ public class Inventory
 
         OnChanged?.Invoke();
     }
+    
+    public int GetQuantity(string name) => _count.ContainsKey(name) ? _count[name] : 0;
 }
