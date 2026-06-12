@@ -7,7 +7,7 @@ namespace Fihgame.Scripts.Player.Managers;
 public partial class FishingManager : Node
 {
     private Scripts.Player.Player _player;
-    private TileMapLayer _waterLayer;
+    private TileMapLayer _grassLayer;
     private Sprite2D _fishingSprite;
     private FishCaughtPopup _fishCaughtPopup;
     private CombatManager _combatManager;
@@ -18,12 +18,12 @@ public partial class FishingManager : Node
 
     public float FishingWaitTime = 2.5f;
 
-    public void Initialize(Scripts.Player.Player player, TileMapLayer waterLayer,
+    public void Initialize(Scripts.Player.Player player, TileMapLayer grassLayer,
                            Sprite2D fishingSprite, FishCaughtPopup popup,
                            CombatManager combatManager)
     {
         _player = player;
-        _waterLayer = waterLayer;
+        _grassLayer = grassLayer;
         _fishingSprite = fishingSprite;
         _fishCaughtPopup = popup;
         _combatManager = combatManager;
@@ -107,7 +107,7 @@ public partial class FishingManager : Node
             case "up":    checkPosition.Y -= distance; break;
         }
 
-        Vector2I tilePos = _waterLayer.LocalToMap(_waterLayer.ToLocal(checkPosition));
-        return _waterLayer.GetCellSourceId(tilePos) != -1;
+        Vector2I tilePos = _grassLayer.LocalToMap(_grassLayer.ToLocal(checkPosition));
+        return _grassLayer.GetCellSourceId(tilePos) == -1;
     }
 }

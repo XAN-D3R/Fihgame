@@ -18,7 +18,7 @@ public partial class GameManager : Node
     {
         _player = GetNode<Scripts.Player.Player>("Entities/Player");
 
-        var waterLayer = GetNode<TileMapLayer>("WaterLayer");
+        var grassLayer = GetNode<TileMapLayer>("GrassLayer");
         var fishingSprite = _player.GetNode<Sprite2D>("FishingSprite");
         var attackArea = _player.GetNode<Area2D>("AttackArea");
         var seaCreatureScene = GD.Load<PackedScene>("res://Scenes/Entities/SeaCreatureEntity.tscn");
@@ -39,7 +39,7 @@ public partial class GameManager : Node
 
         _fishingManager = new FishingManager();
         AddChild(_fishingManager);
-        _fishingManager.Initialize(_player, waterLayer, fishingSprite, fishCaughtPopup, _combatManager);
+        _fishingManager.Initialize(_player, grassLayer, fishingSprite, fishCaughtPopup, _combatManager);
 
         _uiManager = new UIManager();
         AddChild(_uiManager);

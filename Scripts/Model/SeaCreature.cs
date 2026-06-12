@@ -14,7 +14,7 @@ public class SeaCreature : CatchableEntity
 
     public SeaCreature(string name, string spritePath, string description,
         int maxHp, int damage, float attackSpeed = 1f,
-        DroppedItem[] drops = null) : base(name, spritePath, description)
+        DroppedItem[] drops = null, float weight = 1f) : base(name, spritePath, description, weight)
     {
         MaxHp = maxHp;
         CurrentHp = maxHp;
