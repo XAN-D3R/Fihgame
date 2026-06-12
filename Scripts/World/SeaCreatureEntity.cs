@@ -81,7 +81,7 @@ public partial class SeaCreatureEntity : CharacterBody2D
 
         if (distanceToPlayer > _stopDistance)
         {
-            _navigationAgent.TargetPosition = _player.GlobalPosition;
+            _navigationAgent.TargetPosition = _player.GlobalPosition + new Vector2(0, 9.5f);;
             Vector2 direction = (_navigationAgent.GetNextPathPosition() - GlobalPosition).Normalized();
             Velocity = direction * 60f;
         }

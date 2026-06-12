@@ -180,7 +180,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h54ih"]
-size = Vector2(10, 14)
+size = Vector2(10, 11)
 
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_h54ih"]
 
@@ -205,6 +205,7 @@ sprite_frames = SubResource("SpriteFrames_1e6p3")
 animation = &"idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=421721738]
+position = Vector2(0, 9.5)
 shape = SubResource("RectangleShape2D_h54ih")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=609668180]
