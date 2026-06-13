@@ -1385,6 +1385,7 @@ theme_override_colors/font_color = Color(1, 0.9309246, 0.48452926, 1)
 [node name="FeedbackTimer" type="Timer" parent="CanvasLayer/CraftingPanel" unique_id=1690526805]
 
 [node name="EquipmentPanel" parent="CanvasLayer" unique_id=620834688 instance=ExtResource("11_nfd2q")]
+visible = false
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1041819267]
 visible = false
