@@ -8,13 +8,13 @@ public class SeaCreature : CatchableEntity
     public int MaxHp { get; set; }
     public int CurrentHp { get; set; }
     public int Damage { get; set; }
-    public float AttackSpeed { get; set; } // Seconden tussen aanvallen
+    public float AttackSpeed { get; set; } // Seconds between attacks
     
     public DroppedItem[] Drops { get; set; }
 
     public SeaCreature(string name, string spritePath, string description,
         int maxHp, int damage, float attackSpeed = 1f,
-        DroppedItem[] drops = null, float weight = 1f) : base(name, spritePath, description, weight)
+        DroppedItem[] drops = null, float weight = 1f, int minRodLevel = 1) : base(name, spritePath, description, weight, minRodLevel)
     {
         MaxHp = maxHp;
         CurrentHp = maxHp;

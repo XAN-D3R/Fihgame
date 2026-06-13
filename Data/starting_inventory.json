@@ -1,0 +1,6 @@
+﻿[
+  { "type": "Fish", "name": "Carp", "quantity": 1 },
+  { "type": "DroppedItem", "name": "Bone", "quantity": 2 },
+  { "type": "DroppedItem", "name": "Scale", "quantity": 1 },
+  { "type": "Rod", "name": "Intermediate Rod", "quantity": 1 }
+]

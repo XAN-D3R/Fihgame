@@ -1,0 +1,146 @@
+[gd_scene format=3 uid="uid://csc2iwkllhbvq"]
+
+[ext_resource type="Script" uid="uid://b2ucpmmqs2in6" path="res://Scripts/UI/EquipmentPanel.cs" id="1_v1xqg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v1xqg"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.12156863, 0.101960786, 0.078431375, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_650c4"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.18039216, 0.14117648, 0.09803922, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qjmq7"]
+bg_color = Color(0.2509804, 0.2, 0.14901961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.6, 0.49803922, 0.3019608, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="EquipmentPanel" type="Panel" unique_id=620834688]
+visible = false
+custom_minimum_size = Vector2(180, 0)
+anchors_preset = -1
+offset_left = 72.0
+offset_top = 304.0
+offset_right = 320.0
+offset_bottom = 624.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_v1xqg")
+script = ExtResource("1_v1xqg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1324380257]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
+
+[node name="Header" type="HBoxContainer" parent="VBoxContainer" unique_id=1897334506]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Header" unique_id=1796463995]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 5
+
+[node name="Title" type="Label" parent="VBoxContainer/Header/MarginContainer" unique_id=2040268324]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9019608, 0.8, 0.5019608, 1)
+theme_override_font_sizes/font_size = 13
+text = "Equipment"
+
+[node name="CollapseButton" type="Button" parent="VBoxContainer/Header" unique_id=1954913791]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+text = "-"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1177233853]
+layout_mode = 2
+
+[node name="ContentPanel" type="Panel" parent="VBoxContainer" unique_id=88287613]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_650c4")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ContentPanel" unique_id=546766714]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 5
+
+[node name="ContentVBox" type="VBoxContainer" parent="VBoxContainer/ContentPanel/MarginContainer" unique_id=290063302]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="RodLabel" type="Label" parent="VBoxContainer/ContentPanel/MarginContainer/ContentVBox" unique_id=2079833014]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7019608, 0.7019608, 0.8, 1)
+theme_override_font_sizes/font_size = 11
+text = "Rod"
+
+[node name="RodHBox" type="HBoxContainer" parent="VBoxContainer/ContentPanel/MarginContainer/ContentVBox" unique_id=617207352]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="RodSlot" type="Panel" parent="VBoxContainer/ContentPanel/MarginContainer/ContentVBox/RodHBox" unique_id=629006042]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_qjmq7")
+
+[node name="RodIcon" type="TextureRect" parent="VBoxContainer/ContentPanel/MarginContainer/ContentVBox/RodHBox/RodSlot" unique_id=841685033]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+stretch_mode = 5
+
+[node name="RodInfoVBox" type="VBoxContainer" parent="VBoxContainer/ContentPanel/MarginContainer/ContentVBox/RodHBox" unique_id=1989331464]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="RodName" type="Label" parent="VBoxContainer/ContentPanel/MarginContainer/ContentVBox/RodHBox/RodInfoVBox" unique_id=1373020205]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="RodStats" type="Label" parent="VBoxContainer/ContentPanel/MarginContainer/ContentVBox/RodHBox/RodInfoVBox" unique_id=1211687840]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.9019608, 0.6, 1)
+theme_override_font_sizes/font_size = 10
+autowrap_mode = 2
+
+[node name="UnequipButton" type="Button" parent="VBoxContainer/ContentPanel/MarginContainer/ContentVBox" unique_id=117905249]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+text = "Unequip"

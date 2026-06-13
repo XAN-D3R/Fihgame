@@ -1,0 +1,28 @@
+﻿[
+  {
+    "name": "Bonerfish",
+    "spritePath": "res://Assets/Sprites/Fishing/SeaCreature/Bonerfish.png",
+    "description": "A mysterious creature from the deep. Prepare to fight!",
+    "maxHp": 100,
+    "damage": 15,
+    "attackSpeed": 2.0,
+    "weight": 7.0,
+    "minRodLevel": 1,
+    "drops": [
+      {
+        "name": "Bone",
+        "spritePath": "res://Assets/Sprites/Items/Bone.png",
+        "description": "A bone dropped by the Bonerfish.",
+        "quantity": 1,
+        "sellPrice": 15
+      },
+      {
+        "name": "Scale",
+        "spritePath": "res://Assets/Sprites/Items/Scale.png",
+        "description": "A scale dropped by the Bonerfish.",
+        "quantity": 2,
+        "sellPrice": 25
+      }
+    ]
+  }
+]

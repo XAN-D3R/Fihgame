@@ -1,0 +1,17 @@
+﻿[
+  {
+    "resultRod": "Intermediate Rod",
+    "ingredients": [
+      { "itemName": "Bone", "quantity": 2 },
+      { "itemName": "Scale", "quantity": 1 }
+    ]
+  },
+  {
+    "resultRod": "Sea Rod",
+    "ingredients": [
+      { "itemName": "Bone", "quantity": 10 },
+      { "itemName": "Salmon", "quantity": 2 },
+      { "itemName": "Carp", "quantity": 10 }
+    ]
+  }
+]

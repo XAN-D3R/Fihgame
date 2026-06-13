@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Fihgame.Scripts.Data;
 using Fihgame.Scripts.Model;
 using Godot;
 
@@ -41,10 +42,8 @@ public partial class CraftingPanel : Panel
         foreach (Node child in _gridContainer.GetChildren())
             child.QueueFree();
 
-        foreach (var recipe in CraftingRecipes.All)
-        {
+        foreach (var recipe in DataLoader.LoadCraftingRecipes())
             _gridContainer.AddChild(CreateRecipeRow(recipe));
-        }
     }
     
     private Control CreateRecipeRow(CraftingRecipe recipe)

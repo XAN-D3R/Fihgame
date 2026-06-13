@@ -7,26 +7,34 @@ public partial class UIManager : Node
 {
     private Player _player;
     private InventoryPanel _inventoryPanel;
+    private EquipmentPanel _equipmentPanel;
+    
     private DeathMenu _deathMenu;
     private ShopPanel _shopPanel;
 
-    public void Initialize(Player player, InventoryPanel inventoryPanel, DeathMenu deathMenu, ShopPanel shopPanel)
+    public void Initialize(Player player, InventoryPanel inventoryPanel, DeathMenu deathMenu, ShopPanel shopPanel, EquipmentPanel equipmentPanel)
     {
         _player = player;
         _inventoryPanel = inventoryPanel;
         _deathMenu = deathMenu;
-        _shopPanel = shopPanel;
+        _equipmentPanel = equipmentPanel;
 
         _inventoryPanel.SetInventory(_player.Inventory);
+        _inventoryPanel.SetEquipment(_player.Equipment);
+        _equipmentPanel.Initialize(_player);
         _player.OnInventoryPressed += HandleInventoryPressed;
     }
 
     private void HandleInventoryPressed()
     {
-        if (_inventoryPanel.Visible)
-            _inventoryPanel.Visible = false;
-        else
+        bool show = !_inventoryPanel.Visible;
+        _inventoryPanel.Visible = show;
+        if (show)
             _inventoryPanel.ShowInventory(_player.Inventory);
+
+        _equipmentPanel.Visible = show;
+        if (show)
+            _equipmentPanel.Refresh();
     }
 
     public void ShowDeathMenu()

@@ -1,0 +1,47 @@
+﻿[
+  {
+    "name": "Carp",
+    "spritePath": "res://Assets/Sprites/Fishing/Fish/Carp.png",
+    "description": "A common carp.",
+    "rarity": "Common",
+    "sellPrice": 10,
+    "weight": 1.0,
+    "minRodLevel": 1
+  },
+  {
+    "name": "Perch",
+    "spritePath": "res://Assets/Sprites/Fishing/Fish/Perch.png",
+    "description": "Recognizable stripes.",
+    "rarity": "Common",
+    "sellPrice": 10,
+    "weight": 2.0,
+    "minRodLevel": 1
+  },
+  {
+    "name": "Pike",
+    "spritePath": "res://Assets/Sprites/Fishing/Fish/Pike.png",
+    "description": "A fierce predator.",
+    "rarity": "Uncommon",
+    "sellPrice": 25,
+    "weight": 5.0,
+    "minRodLevel": 1
+  },
+  {
+    "name": "Trout",
+    "spritePath": "res://Assets/Sprites/Fishing/Fish/Trout.png",
+    "description": "Clear, fast streams.",
+    "rarity": "Rare",
+    "sellPrice": 60,
+    "weight": 7.0,
+    "minRodLevel": 1
+  },
+  {
+    "name": "Salmon",
+    "spritePath": "res://Assets/Sprites/Fishing/Fish/Salmon.png",
+    "description": "Extraordinarily rare.",
+    "rarity": "Legendary",
+    "sellPrice": 150,
+    "weight": 10.0,
+    "minRodLevel": 2
+  }
+]

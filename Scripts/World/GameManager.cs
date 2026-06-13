@@ -1,4 +1,5 @@
-﻿using Fihgame.Scripts.Player.Managers;
+﻿using Fihgame.Scripts.Model;
+using Fihgame.Scripts.Player.Managers;
 using Fihgame.Scripts.UI;
 using Fihgame.Scripts.World.NPC;
 using Godot;
@@ -16,6 +17,7 @@ public partial class GameManager : Node
 
     public override void _Ready()
     {
+        EntityFactory.Initialize();
         _player = GetNode<Scripts.Player.Player>("Entities/Player");
 
         var grassLayer = GetNode<TileMapLayer>("GrassLayer");
@@ -30,6 +32,7 @@ public partial class GameManager : Node
         var shopPanel = GetNode<ShopPanel>("CanvasLayer/ShopPanel");
         shopPanel.Initialize(_player);
         
+        var equipmentPanel = GetNode<EquipmentPanel>("CanvasLayer/EquipmentPanel");
         var craftingPanel = GetNode<CraftingPanel>("CanvasLayer/CraftingPanel");
         craftingPanel.Initialize(_player);
         
@@ -49,7 +52,11 @@ public partial class GameManager : Node
 
         _uiManager = new UIManager();
         AddChild(_uiManager);
-        _uiManager.Initialize(_player, inventoryPanel, deathMenu, shopPanel);
+        _uiManager.Initialize(_player, inventoryPanel, deathMenu, shopPanel, equipmentPanel);
+        
+        inventoryPanel.SetEquipment(_player.Equipment);
+        inventoryPanel.SetEquipmentPanel(equipmentPanel);
+        inventoryPanel.SetPlayer(_player);
 
         _player.OnDeath += _uiManager.ShowDeathMenu;
     }

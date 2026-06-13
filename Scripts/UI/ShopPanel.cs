@@ -56,6 +56,7 @@ public partial class ShopPanel : Panel
         }
     }
 
+    // I Still have to move this to Godot themes and stuff, but that's for later.
     private Control CreateShopRow(Item item, int count)
     {
         var panel = new PanelContainer();
@@ -78,7 +79,7 @@ public partial class ShopPanel : Panel
 
         var priceLabel = new Label();
         priceLabel.Text = $"{item.SellPrice * count}g";
-        priceLabel.AddThemeColorOverride("font_color", new Color(1f, 0.85f, 0.2f)); // goud
+        priceLabel.AddThemeColorOverride("font_color", new Color(1f, 0.85f, 0.2f)); // gold
         priceLabel.SizeFlagsVertical = Control.SizeFlags.ShrinkCenter;
 
         var sellOneBtn = new Button();

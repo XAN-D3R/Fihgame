@@ -1,40 +1,61 @@
-﻿using Godot;
+﻿using System.Collections.Generic;
+using Fihgame.Scripts.Data;
+using Godot;
 
 namespace Fihgame.Scripts.Model;
 
 public static class EntityFactory
 {
-    private static readonly CatchableEntity[] _possibleEntities = {
-        new Fish("Carp",   "res://Assets/Sprites/Fishing/Fish/Carp.png",   "A common carp.",          Rarity.Common,    sellPrice: 10, weight: 1f),
-        new Fish("Perch",  "res://Assets/Sprites/Fishing/Fish/Perch.png",  "Recognizable stripes.",   Rarity.Common,    sellPrice: 10, weight: 2f),
-        new Fish("Pike",   "res://Assets/Sprites/Fishing/Fish/Pike.png",   "A fierce predator.",      Rarity.Uncommon,  sellPrice: 25, weight: 5f),
-        new Fish("Trout",  "res://Assets/Sprites/Fishing/Fish/Trout.png",  "Clear, fast streams.",    Rarity.Rare,      sellPrice: 60, weight: 7),
-        new Fish("Salmon", "res://Assets/Sprites/Fishing/Fish/Salmon.png", "Extraordinarily rare.",   Rarity.Legendary, sellPrice: 150, weight: 10),
-        new SeaCreature("Bonerfish", "res://Assets/Sprites/Fishing/SeaCreature/Bonerfish.png", "A mysterious creature from the deep. Prepare to fight!", 100, 15, 2f,
-            drops: new DroppedItem[]
-            {
-                new DroppedItem("Bone",  "res://Assets/Sprites/Items/Bone.png",  "A bone dropped by the Bonerfish.",  1, sellPrice: 15),
-                new DroppedItem("Scale", "res://Assets/Sprites/Items/Scale.png", "A scale dropped by the Bonerfish.", 2, sellPrice: 25)
-            }, weight: 7)
-    };
+    private static CatchableEntity[] _possibleEntities;
+    
+    public static void Initialize()
+    {
+        var entities = new List<CatchableEntity>();
+        entities.AddRange(DataLoader.LoadFish());
+        entities.AddRange(DataLoader.LoadSeaCreatures());
+        _possibleEntities = entities.ToArray();
+    }
 
-    public static CatchableEntity CreateRandom()
+    public static CatchableEntity CreateRandom(RodItem rod)
+    {
+        var pool = System.Array.FindAll(_possibleEntities, e => e.MinRodLevel <= rod.RodLevel);
+
+        float roll = (float)GD.RandRange(0f, 100f);
+        if (roll < rod.SeaCreatureChance)
+        {
+            var creatures = System.Array.FindAll(pool, e => e is SeaCreature);
+            if (creatures.Length > 0)
+                return Clone(GetWeightedRandom(creatures, rod.Tracking));
+        }
+
+        var fish = System.Array.FindAll(pool, e => e is Fish);
+        return Clone(GetWeightedRandom(fish, rod.Tracking));
+    }
+
+    private static CatchableEntity GetWeightedRandom(CatchableEntity[] pool, float tracking)
     {
         float totalWeight = 0f;
-        foreach (var e in _possibleEntities)
-            totalWeight += 1f / e.Weight;
-
-        float roll = (float)GD.RandRange(0f, totalWeight);
-        float cumulative = 0f;
-
-        foreach (var e in _possibleEntities)
+        foreach (var e in pool)
         {
-            cumulative += 1f / e.Weight;
-            if (roll <= cumulative)
+            float w = 1f / e.Weight;
+            if (e is Fish f && f.Rarity != Rarity.Common)
+                w *= 1f + tracking / 100f;
+            totalWeight += w;
+        }
+
+        float r = (float)GD.RandRange(0f, totalWeight);
+        float cumulative = 0f;
+        foreach (var e in pool)
+        {
+            float w = 1f / e.Weight;
+            if (e is Fish f && f.Rarity != Rarity.Common)
+                w *= 1f + tracking / 100f;
+            cumulative += w;
+            if (r <= cumulative)
                 return Clone(e);
         }
 
-        return Clone(_possibleEntities[0]);
+        return Clone(pool[0]);
     }
 
     private static CatchableEntity Clone(CatchableEntity template)

@@ -11,6 +11,7 @@
 [ext_resource type="Theme" uid="uid://vwjxxaao8wcs" path="res://Assets/Themes/InventoryTheme.tres" id="8_p7pgw"]
 [ext_resource type="Script" uid="uid://dkk3nu2ivx5si" path="res://Scripts/UI/CraftingPanel.cs" id="10_30wmc"]
 [ext_resource type="Script" uid="uid://otc1txxwexmh" path="res://Scripts/UI/DeathMenu.cs" id="10_kuxid"]
+[ext_resource type="PackedScene" uid="uid://csc2iwkllhbvq" path="res://Scenes/World/UI/EquipmentPanel.tscn" id="11_nfd2q"]
 [ext_resource type="PackedScene" uid="uid://defjqpma7dwgr" path="res://Scripts/UI/ShopPanel.tscn" id="12_x5sp8"]
 [ext_resource type="PackedScene" uid="uid://cb83kweadegtt" path="res://Scenes/Entities/NPC/ShopNPC.tscn" id="13_lp0bp"]
 [ext_resource type="PackedScene" uid="uid://dip87jqhk02rv" path="res://Scenes/Entities/NPC/RodSmithNpc.tscn" id="14_0phyg"]
@@ -1172,9 +1173,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
+offset_left = -232.0
 offset_top = -20.0
-offset_right = 430.0
+offset_right = 218.0
 offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -1182,12 +1183,20 @@ theme = ExtResource("8_p7pgw")
 theme_override_styles/panel = SubResource("StyleBoxFlat_kuxid")
 script = ExtResource("8_kjd5s")
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/InventoryPanel" unique_id=1003118993]
-layout_mode = 1
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 160.0
-offset_bottom = 290.0
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/InventoryPanel" unique_id=1418245043]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/InventoryPanel/MarginContainer" unique_id=361038453]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/InventoryPanel/MarginContainer/VBoxContainer" unique_id=1003118993]
+layout_mode = 2
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 columns = 3
@@ -1198,10 +1207,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -240.0
-offset_top = 10.0
-offset_right = 10.0
-offset_bottom = 290.0
+offset_left = 24.0
+offset_top = 15.0
+offset_right = 274.0
+offset_bottom = 295.0
 grow_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ng1ea")
 
@@ -1255,6 +1264,14 @@ offset_left = 10.0
 offset_top = 220.0
 offset_right = 50.0
 offset_bottom = 243.0
+
+[node name="EquipButton" type="Button" parent="CanvasLayer/InventoryPanel/DetailPanel" unique_id=2060080197]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 31.0
+offset_right = 218.0
+offset_bottom = 62.0
+text = "Equip"
 
 [node name="DeathMenu" type="Panel" parent="CanvasLayer" unique_id=606671515]
 process_mode = 3
@@ -1366,6 +1383,8 @@ offset_bottom = 33.0
 theme_override_colors/font_color = Color(1, 0.9309246, 0.48452926, 1)
 
 [node name="FeedbackTimer" type="Timer" parent="CanvasLayer/CraftingPanel" unique_id=1690526805]
+
+[node name="EquipmentPanel" parent="CanvasLayer" unique_id=620834688 instance=ExtResource("11_nfd2q")]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1041819267]
 visible = false

@@ -1,4 +1,5 @@
 using System;
+using Fihgame.Scripts.Data;
 using Fihgame.Scripts.Model;
 using Godot;
 
@@ -13,6 +14,8 @@ public partial class Player : CharacterBody2D
     [Export] public int MaxHp = 100;
     [Export] public int CurrentHp = 100;
     [Export] public int Damage = 10;
+    
+    public Equipment Equipment = new Equipment();
 
     public string LastDirection = "down";
     public GameStats Stats = new GameStats();
@@ -48,6 +51,13 @@ public partial class Player : CharacterBody2D
         _hpBar.Visible = false;
 
         _sprintStamina = SprintDuration;
+        AddStartingItems();
+    }
+    
+    private void AddStartingItems()
+    {
+        foreach (var item in DataLoader.LoadStartingInventory())
+            Inventory.AddItem(item);
     }
 
     public override void _PhysicsProcess(double delta)

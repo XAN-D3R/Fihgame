@@ -1,0 +1,35 @@
+﻿[
+  {
+    "name": "Basic Rod",
+    "spritePath": "res://Assets/Sprites/Fishing/Rod/brown_rod_48x48.png",
+    "description": "A basic fishing rod.",
+    "sellPrice": 0,
+    "fishingSpeed": 1.0,
+    "seaCreatureChance": 10.0,
+    "rodLevel": 1,
+    "tracking": 0.0,
+    "isDefault": true
+  },
+  {
+    "name": "Intermediate Rod",
+    "spritePath": "res://Assets/Sprites/Fishing/Rod/intermediate_rod_48x48.png",
+    "description": "A rod actually used for fishing",
+    "sellPrice": 20,
+    "fishingSpeed": 1.5,
+    "seaCreatureChance": 15.0,
+    "rodLevel": 2,
+    "tracking": 20.0,
+    "isDefault": false
+  },
+  {
+    "name": "Sea Rod",
+    "spritePath": "res://Assets/Sprites/Fishing/Rod/sea_rod_48x48.png",
+    "description": "The rod of the sea",
+    "sellPrice": 100,
+    "fishingSpeed": 2.0,
+    "seaCreatureChance": 25.0,
+    "rodLevel": 3,
+    "tracking": 50.0,
+    "isDefault": false
+  }
+]

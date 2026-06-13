@@ -16,7 +16,7 @@ public partial class FishingManager : Node
     private float _fishingTimer = 0f;
     
 
-    public float FishingWaitTime = 0.5f;
+    public float FishingWaitTime = 2.5f;
 
     public void Initialize(Scripts.Player.Player player, TileMapLayer grassLayer,
                            Sprite2D fishingSprite, FishCaughtPopup popup,
@@ -54,11 +54,11 @@ public partial class FishingManager : Node
     {
         _isFishing = true;
         _player.IsBusy = true;
-        _fishingTimer = FishingWaitTime;
+        _fishingTimer = FishingWaitTime / _player.Equipment.EquippedRod.FishingSpeed;
+        _fishingSprite.Texture = GD.Load<Texture2D>(_player.Equipment.EquippedRod.SpritePath);
         _fishingSprite.Visible = true;
         UpdateFishingRodPosition();
         _player.StopWalkingAnimation();
-        GD.Print("Rod cast... waiting for fish!");
     }
 
     private void CatchFish()
@@ -67,7 +67,7 @@ public partial class FishingManager : Node
         _player.IsBusy = false;
         _fishingSprite.Visible = false;
 
-        CatchableEntity caught = EntityFactory.CreateRandom();
+        CatchableEntity caught = EntityFactory.CreateRandom(_player.Equipment.EquippedRod);
 
         if (caught is SeaCreature creature)
         {
