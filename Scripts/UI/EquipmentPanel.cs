@@ -85,7 +85,7 @@ public partial class EquipmentPanel : Panel
         var rod = _player.Equipment.EquippedRod;
         _rodIcon.Texture = GD.Load<Texture2D>(rod.SpritePath);
         _rodName.Text = rod.Name;
-        _rodStats.Text = $"Spd: {rod.FishingSpeed}x\nSC: {rod.SeaCreatureChance}%\nLvl: {rod.RodLevel}\nTrack: {rod.Tracking}";
+        _rodStats.Text = $"Fishing Speed: {rod.FishingSpeed}x\nSea Creature Chance: {rod.SeaCreatureChance}%\nRod Level: {rod.RodLevel}\nTracking: {rod.Tracking}";
         _unequipBtn.Visible = rod != Equipment.DefaultRod;
     }
 }
